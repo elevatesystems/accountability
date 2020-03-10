@@ -1,0 +1,12 @@
+en:
+  accountability:
+    gateway:
+      errors:
+        unknown_gateway_error: "An unknown gateway error has occurred"
+  helpers:
+    label:
+      billing_configuration:
+        configuration_name: "Payment Method Name"
+        contact_email: "Billing Email"
+        contact_first_name: "First Name"
+        contact_last_name: "Last Name"

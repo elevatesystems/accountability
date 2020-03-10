@@ -1,0 +1,16 @@
+%h1 Shopping Cart
+= link_to 'Back', accountability_products_path
+
+%p
+  %b Cart ID:
+  = @order_group.id
+
+- @order_group.order_items.includes(:product).each do |order_item|
+  %hr
+  %b= order_item.product_name
+  %br
+  %p
+    Price:
+    = order_item.default_price
+
+= button_to 'Check Out', '#'

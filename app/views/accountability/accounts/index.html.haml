@@ -1,0 +1,13 @@
+%h1 Accounts
+
+%br
+
+- @accounts.each do |account|
+  %h2
+    %b Billable ID:
+    = account.billable.id
+  %p
+    %b Balance:
+    = account.balance
+  = link_to 'Show', accountability_account_path(account)
+  %hr

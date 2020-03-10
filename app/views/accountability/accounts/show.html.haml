@@ -1,0 +1,12 @@
+%h1 Account Overview
+
+%br
+
+%h2
+  %b Billable ID:
+  = @account.billable.id
+%p
+  %b Balance:
+  = @account.balance
+
+= link_to 'Back', accountability_accounts_path

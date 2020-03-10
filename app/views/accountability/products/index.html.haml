@@ -1,0 +1,39 @@
+%h1 Products
+
+= link_to 'Shopping Cart', accountability_order_group_path(current_order_group)
+|
+= link_to 'New Product', new_accountability_product_path
+
+%p
+  %b User is admin:
+  = admin_session? ? 'yep' : 'nope'
+
+-# Temporary - we shouldn't assume they're on Devise
+%p
+  %b Email:
+  = current_user&.email
+
+%p
+  %b Account ID (session):
+  = session[:current_account_id]
+
+%p
+  %b Account (db):
+  = current_account
+
+%p
+  %b OrderGroup ID (db):
+  = current_order_group&.id
+
+%br
+%br
+%br
+%br
+%br
+%hr
+
+- @products.each do |product|
+  %h2= product.name
+  %p= product.description
+  = button_to 'Add to cart', add_item_accountability_order_group_path(current_order_group, product_id: product.id)
+  %hr

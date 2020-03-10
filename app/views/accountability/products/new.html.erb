@@ -1,0 +1,40 @@
+<h1>Product#new</h1>
+
+<% @product.errors.full_messages.each do |message| %>
+  <div class="alert alert-danger">
+    <%= message %>
+  </div>
+<% end %>
+
+<%= form_with model: [:accountability, @product], local: true do |f| %>
+  <div class="card my-3">
+    <div class="card-header">
+      <b>Info</b>
+    </div>
+    <div class="card-body">
+      <div class="form-row">
+        <div class="form-group col-md-8">
+          <%= f.label :name %>
+          <%= f.text_field :name, class: 'form-control' %>
+        </div>
+        <div class="form-group col-md-4">
+          <%= f.label :sku %>
+          <%= f.text_field :sku, class: 'form-control' %>
+        </div>
+        <div class="form-group col-md-4">
+          <%= f.label :price %>
+          <%= f.number_field :price, step: 2, class: 'form-control' %>
+        </div>
+        <div class="form-group col-md-12">
+          <%= f.label :description %>
+          <%= f.text_area :description, class: 'form-control' %>
+        </div>
+        <div class="form-group col-md-4">
+          <%= f.label :source_class, 'Category' %>
+          <%= f.select :source_class, Accountability::Offerable.collection.stringify_keys.keys.map(&:titleize), {}, {class: 'form-control' } %>
+        </div>
+      </div>
+    </div>
+  </div>
+  <%= f.submit 'Submit', class: 'btn btn-success' %>
+<% end %>

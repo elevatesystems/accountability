@@ -1,0 +1,20 @@
+.bundle/*
+log/*
+.env
+tmp/*
+.sas_ftp_cred
+**.DS_Store
+
+# Rubymine
+.idea/
+.idea/*
+
+public/system/**
+storage/**
+./node_modules
+
+
+nginx-data/*
+
+# Research
+exposure_test/*
