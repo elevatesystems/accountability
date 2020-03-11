@@ -7,7 +7,7 @@ class AccountabilityController < ApplicationController
 
   def track_order
     # Check if session is billable (billable_identifier proc returns a record)
-    billable_record = instance_exec(&Configuration.billable_identifier)
+    billable_record = instance_exec(&Accountability::Configuration.billable_identifier)
 
     if billable_record.present?
       track_user_session(billable_record)
@@ -34,12 +34,12 @@ class AccountabilityController < ApplicationController
     # Check if the order already belongs to someone
     return if current_order_group&.unassigned?
 
-    current_order_group = OrderGroup.create!
+    current_order_group = Accountability::OrderGroup.create!
     session[:current_order_group_id] = current_order_group.id
   end
 
   def current_order_group
     order_group_id = session[:current_order_group_id]
-    OrderGroup.find_by(id: order_group_id)
+    Accountability::OrderGroup.find_by(id: order_group_id)
   end
 end
