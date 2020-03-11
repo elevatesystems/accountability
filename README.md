@@ -33,6 +33,18 @@ This will generate the following routes:
 
 **Note:** Accountability does not have its own `ApplicationController` and will use yours instead. This means that your layouts file will be used. Prepend path helpers with `main_app.` to prevent links from breaking within Accountability's default views.
 
+### Defining billable models
+Billable models (such as a User, Customer, or Organization) need to be declared in order to accrue credits and make payments.  
+
+```ruby
+class User < ApplicationRecord
+  acts_as_billable  
+
+  ...
+```
+
+By default, Accountability identifies the billable entity from the `@current_user` variable. This can be changed from the [initializer file](Customizing configuration options). 
+
 ### Creating products
 In order to make a `Product`, at least one model must indicate that it is "offerable." For example, let's say we want to sell baskets:
 ```ruby
