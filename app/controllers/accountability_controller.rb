@@ -1,6 +1,8 @@
 # TODO: Set the parent class dynamically (Accountability.parent_controller.constantize)
 
 class AccountabilityController < ApplicationController
+  helper Accountability::Engine.helpers
+
   protect_from_forgery with: :exception
 
   private
