@@ -55,7 +55,24 @@ class Basket < ApplicationRecord
 Note that `has_offerable` is an alias of `acts_as_offerable`.
 
 For additional ways to define offerable content, see the "Advanced Usage" section. 
-### Configuration
+### Customizing configuration options
+To customize Accountability, create a `config/initializers/accountability.rb` file:
+```ruby
+Accountability.configure do |config|
+  # Customize Accountability settings here
+end
+``` 
+
+#### Customer identification
+By default, Accountability will reference the `@current_user` variable when identifying a billable user. 
+This will work for most applications using Devise with a User model representing customers.
+
+You can customize this behavior by defining either a proc or lamda that returns an instance of any "billable" record. A nil response will trigger a new guest session.
+
+```ruby
+config.billable_identifier = -> { current_user&.organization }
+```      
+
 ## Advanced Usage
 ### Defining Offerable Content
 #### Scopes
