@@ -31,6 +31,8 @@ This will generate the following routes:
 * `/billing/orders` 
 * `/billing/accounts`
 
+**Note:** Accountability does not have its own `ApplicationController` and will use yours instead. This means that your layouts file will be used. Prepend path helpers with `main_app.` to prevent links from breaking within Accountability's default views.
+
 ### Creating products
 In order to make a `Product`, at least one model must indicate that it is "offerable." For example, let's say we want to sell baskets:
 ```ruby
