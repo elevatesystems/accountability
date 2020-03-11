@@ -8,6 +8,14 @@ To get started, add Accountability to your application's Gemfile.
 gem 'accountability'
 ``` 
 
+Next you must run Bundler, generate the install files, and run migrations.
+
+```bash
+bundle install
+rails generate accountability:install
+rake db:migrate
+```
+
 ### Adding routes
 You must specify a path to mount Accountability's engine to from inside your `config/routes.rb` file. In this example, we will mount everything to `/billing`. 
 
