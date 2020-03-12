@@ -2,7 +2,7 @@ module Accountability
   class Configuration
     class << self
       attr_accessor :logo_path, :tax_rate, :payment_gateway, :dev_tools_enabled
-      attr_writer :admin_checker, :billable_identifier
+      attr_writer :admin_checker, :billable_identifier, :billable_name_column
 
       def admin_checker
         if @admin_checker.is_a? Proc
@@ -18,6 +18,10 @@ module Accountability
         else
           -> { @current_user }
         end
+      end
+
+      def billable_name_column
+        @billable_name_column || :id
       end
 
       def dev_tools_enabled?

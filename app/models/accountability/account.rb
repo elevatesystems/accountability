@@ -24,6 +24,11 @@ module Accountability
       billing_configuration
     end
 
+    def billable_record_name
+      name_method = Configuration.billable_name_column
+      billable.public_send(name_method)
+    end
+
     def balance
       accrued_credits = credits.sum(:amount)
       accrued_debits = debits.sum(:amount)

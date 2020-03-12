@@ -5,7 +5,8 @@
   - if admin_session?
     = link_to 'Back', accountability_accounts_path, class: 'btn btn-outline-primary float-right'
 
-  %h1.mb-5 Billing Info
+  %h1 Billing Info
+  %h4.mb-5= @account.billable_record_name
 
   .row
     .col-md-6

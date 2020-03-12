@@ -81,8 +81,11 @@ This will work for most applications using Devise with a User model representing
 
 You can customize this behavior by defining either a proc or lamda that returns an instance of any "billable" record. A nil response will trigger a new guest session.
 
+You can optionally specify one of the billable record's attributes to reference as a user-friendly name in the views. The ID is used by default.   
+
 ```ruby
 config.billable_identifier = -> { current_user&.organization }
+config.billable_name_column = :full_name
 ```      
 
 #### Debugger tools
