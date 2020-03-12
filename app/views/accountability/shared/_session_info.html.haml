@@ -1,0 +1,24 @@
+.card.mb-5
+  .card-header
+    Session Info
+  .row.no-gutters
+    .col-md-6
+      .card-body.pb-1
+        %p
+          %strong.text-primary User is admin:
+          = admin_session? ? 'Yes' : 'No'
+
+        %p
+          %strong.text-primary User email:
+          = current_user&.email
+
+    .col-md-6
+      .card-body.pb-1
+
+        %p
+          %strong.text-primary OrderGroup ID:
+          = current_order_group&.id
+
+        %p
+          %strong.text-primary Account ID:
+          = current_account&.id

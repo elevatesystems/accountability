@@ -1,39 +1,17 @@
-%h1 Products
+.container
+  = render partial: 'accountability/shared/session_info'
 
-= link_to 'Shopping Cart', accountability_order_group_path(current_order_group)
-|
-= link_to 'New Product', new_accountability_product_path
+  = link_to 'Shopping Cart', accountability_order_group_path(current_order_group), class: 'btn btn-outline-primary float-right'
 
-%p
-  %b User is admin:
-  = admin_session? ? 'yep' : 'nope'
+  - if admin_session?
+    = link_to 'New Product', new_accountability_product_path, class: 'btn btn-outline-primary float-right mx-3'
 
--# Temporary - we shouldn't assume they're on Devise
-%p
-  %b Email:
-  = current_user&.email
+  %h1.mb-5 Products
 
-%p
-  %b Account ID (session):
-  = session[:current_account_id]
-
-%p
-  %b Account (db):
-  = current_account
-
-%p
-  %b OrderGroup ID (db):
-  = current_order_group&.id
-
-%br
-%br
-%br
-%br
-%br
-%hr
-
-- @products.each do |product|
-  %h2= product.name
-  %p= product.description
-  = button_to 'Add to cart', add_item_accountability_order_group_path(current_order_group, product_id: product.id)
-  %hr
+  - @products.each do |product|
+    .card
+      .card-header
+        = product.name
+      .card-body
+        = product.description
+        = button_to 'Add to cart', add_item_accountability_order_group_path(current_order_group, product_id: product.id), class: 'btn btn-outline-success float-right'
