@@ -88,6 +88,17 @@ config.billable_identifier = -> { current_user&.organization }
 config.billable_name_column = :full_name
 ```      
 
+#### Tax rates
+Currently, tax rates are defined statically as a percentage of the product's price. Feel free to open a PR if you require something more complex.
+
+The default value is `0.0`.
+
+```ruby
+config.tax_rate = 9.53
+```
+
+Note that products can be marked as tax exempt.  
+
 #### Debugger tools
 To print helpful session information in the views such as the currently tracked billable entity, enable the dev tools.
 

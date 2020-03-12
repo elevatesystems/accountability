@@ -1,8 +1,12 @@
 module Accountability
   class Configuration
     class << self
-      attr_accessor :logo_path, :tax_rate, :payment_gateway, :dev_tools_enabled
-      attr_writer :admin_checker, :billable_identifier, :billable_name_column
+      attr_accessor :logo_path, :payment_gateway, :dev_tools_enabled
+      attr_writer :tax_rate, :admin_checker, :billable_identifier, :billable_name_column
+
+      def tax_rate
+        @tax_rate || 0.0
+      end
 
       def admin_checker
         if @admin_checker.is_a? Proc
