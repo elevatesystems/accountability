@@ -1,12 +1,23 @@
-%h1 Account Overview
+.container
+  - if Accountability::Configuration.dev_tools_enabled?
+    = render partial: 'accountability/shared/session_info'
 
-%br
+  - if admin_session?
+    = link_to 'Back', accountability_accounts_path, class: 'btn btn-outline-primary float-right'
 
-%h2
-  %b Billable ID:
-  = @account.billable.id
-%p
-  %b Balance:
-  = @account.balance
+  %h1.mb-5 Billing Info
 
-= link_to 'Back', accountability_accounts_path
+  .row
+    .col-md-6
+      .card
+        .card-header
+          Account Balance
+        .card-body
+          .text-primary= @account.balance
+
+    .col-md-6
+      .card
+        .card-header
+          Payment History
+        .card-body
+          .text-secondary Coming Soon
