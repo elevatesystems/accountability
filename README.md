@@ -85,6 +85,13 @@ You can customize this behavior by defining either a proc or lamda that returns 
 config.billable_identifier = -> { current_user&.organization }
 ```      
 
+#### Debugger tools
+To print helpful session information in the views such as the currently tracked billable entity, enable the dev tools.
+
+```ruby
+config.dev_tools_enabled = true
+```
+
 ## Advanced Usage
 ### Defining Offerable Content
 #### Scopes

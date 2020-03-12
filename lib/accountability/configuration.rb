@@ -1,7 +1,7 @@
 module Accountability
   class Configuration
     class << self
-      attr_accessor :logo_path, :tax_rate, :payment_gateway
+      attr_accessor :logo_path, :tax_rate, :payment_gateway, :dev_tools_enabled
       attr_writer :admin_checker, :billable_identifier
 
       def admin_checker
@@ -18,6 +18,10 @@ module Accountability
         else
           -> { @current_user }
         end
+      end
+
+      def dev_tools_enabled?
+        !!dev_tools_enabled
       end
     end
   end
