@@ -2,10 +2,11 @@
   - if Accountability::Configuration.dev_tools_enabled?
     = render partial: 'accountability/shared/session_info'
 
-  = link_to 'Shopping Cart', accountability_order_group_path(current_order_group), class: 'btn btn-outline-primary float-right'
+  - if current_order_group.order_items.any?
+    = link_to 'Shopping Cart', accountability_order_group_path(current_order_group), class: 'btn btn-outline-primary float-right ml-2'
 
-  - if admin_session?
-    = link_to 'New Product', new_accountability_product_path, class: 'btn btn-outline-primary float-right mx-3'
+  - if current_account.present?
+    = link_to 'Billing', accountability_account_path(current_account), class: 'btn btn-outline-primary float-right ml-2'
 
   %h1.mb-5 Products
 
@@ -16,3 +17,6 @@
       .card-body
         = product.description
         = button_to 'Add to cart', add_item_accountability_order_group_path(current_order_group, product_id: product.id), class: 'btn btn-outline-success float-right'
+
+  - if admin_session?
+    = link_to 'Add New Product', new_accountability_product_path, class: 'btn btn-outline-primary float-right mt-5'
