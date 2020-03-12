@@ -1,0 +1,27 @@
+.container
+  %h1 Product#new
+  - @product.errors.full_messages.each do |message|
+    .alert.alert-danger
+      = message
+  = form_with model: [:accountability, @product], local: true do |f|
+    .card.my-3
+      .card-header
+        %b Info
+      .card-body
+        .form-row
+          .form-group.col-md-8
+            = f.label :name
+            = f.text_field :name, class: 'form-control'
+          .form-group.col-md-4
+            = f.label :price
+            = f.number_field :price, step: 2, class: 'form-control'
+          .form-group.col-md-8
+            = f.label :source_class, 'Category'
+            = f.select :source_class, Accountability::Offerable.collection.stringify_keys.keys.map(&:titleize), {}, {class: 'form-control' }
+          .form-group.col-md-4
+            = f.label :sku
+            = f.text_field :sku, class: 'form-control'
+          .form-group.col-md-12
+            = f.label :description
+            = f.text_area :description, class: 'form-control'
+    = f.submit 'Submit', class: 'btn btn-success'
