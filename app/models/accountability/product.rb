@@ -31,6 +31,16 @@ module Accountability
       source_class.where(**source_scope)
     end
 
+    # TODO: Update offerable_template.scopes to return an array of Scope objects and delegate to that instead
+    def scopes
+      return @scopes if @scopes.present?
+
+      @scopes = offerable_template.scopes.map do |attribute, params|
+        params.merge! source_class: source_class, attribute: attribute
+        Offerable::Scope.new(**params)
+      end
+    end
+
     def offerable_template
       return if offerable_category.nil?
       return @offerable if @offerable.present?
@@ -53,11 +63,11 @@ module Accountability
     end
 
     delegate :callbacks, to: :offerable_template
-  end
 
-  private
+    private
 
-  def raise_offerable_not_found
-    raise 'Offerable not found'
+    def raise_offerable_not_found
+      raise 'Offerable not found'
+    end
   end
 end
