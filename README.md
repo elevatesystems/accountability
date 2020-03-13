@@ -45,17 +45,21 @@ class User < ApplicationRecord
 
 By default, Accountability identifies the billable entity from the `@current_user` variable. This can be changed from the [initializer file](Customizing configuration options). 
 
-### Creating products
-In order to make a `Product`, at least one model must indicate that it is "offerable." For example, let's say we want to sell baskets:
+### Defining products
+A "product" associates an "offerable" model in your application with a SKU, name, price, description, and instructions for querying available inventory.
+
+For example, let's say we want to sell baskets:
+
 ```ruby
 class Basket < ApplicationRecord
   acts_as_offerable
 
   ...
 ```  
-You can now visit the `/billing/products/new` page and select "Basket" category.
 
-If you want to have multiple offerable categories on the same model, you can set a custom category name:
+You can now visit the `/billing/products/new` page and select the "Basket" category to create a new _product_.
+
+To define additional offerables on the same model, you can set a custom category name:
 ```ruby
 class Basket < ApplicationRecord
   has_offerable :basket
@@ -63,7 +67,6 @@ class Basket < ApplicationRecord
 
   ...
 ```
-
 Note that `has_offerable` is an alias of `acts_as_offerable`.
 
 For additional ways to define offerable content, see the "Advanced Usage" section. 
@@ -118,7 +121,7 @@ class Basket < ApplicationRecord
     offer.add_scope :style, title: 'Size', options: %i[small large] 
   end
 end
-```  
+```
 
 #### Callbacks
 #### Multi-Tenancy
