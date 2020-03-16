@@ -1,4 +1,11 @@
 en:
+  activerecord:
+    attributes:
+      'accountability/product':
+        offerable_category: "Category"
+        schedule: "Billing Schedule"
+        quantity: "Bundle Size"
+        sku: "SKU"
   accountability:
     gateway:
       errors:

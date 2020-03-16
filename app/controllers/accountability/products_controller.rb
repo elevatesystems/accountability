@@ -9,6 +9,7 @@ module Accountability
 
     def new
       @product = Product.new
+      @stage = 'initial'
     end
 
     def show; end
@@ -18,7 +19,10 @@ module Accountability
     def create
       @product = Product.new(product_params)
 
-      if @product.save
+      if params[:stage] == 'initial'
+        @stage = 'final'
+        render :new
+      elsif @product.save
         redirect_to accountability_products_path, notice: 'Successfully created new product'
       else
         render :new
@@ -48,7 +52,7 @@ module Accountability
     end
 
     def product_params
-      params.require(:product).permit(:name, :sku, :price, :description, :source_class, :source_trait, :source_scope)
+      params.require(:product).permit(:name, :sku, :price, :description, :source_class, :source_trait, :source_scope, :offerable_category)
     end
   end
 end
