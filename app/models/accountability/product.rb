@@ -9,13 +9,15 @@
 
 module Accountability
   class Product < ApplicationRecord
+    RECURRING_SCHEDULES = %i[weekly monthly annually].freeze
+
     has_and_belongs_to_many :coupons
     has_many :order_items, dependent: :restrict_with_error
     has_many :credits, through: :order_items, inverse_of: :product
 
     serialize :source_scope, Hash
 
-    enum schedule: %i[one_time weekly monthly annually], _prefix: :accrues
+    enum schedule: [:one_time, *RECURRING_SCHEDULES], _prefix: :accrues
 
     def billing_cycle_length
       case schedule
