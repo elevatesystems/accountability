@@ -19,6 +19,12 @@ module Accountability
 
     enum schedule: [:one_time, *RECURRING_SCHEDULES], _prefix: :accrues
 
+    def active?
+      return false unless activation_date.present?
+
+      activation_date.past?
+    end
+
     def billing_cycle_length
       case schedule
       when 'weekly' then 1.week
