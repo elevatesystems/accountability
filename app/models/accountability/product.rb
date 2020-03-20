@@ -39,6 +39,12 @@ module Accountability
       source_class.where(**source_scope)
     end
 
+    def available_inventory
+      return [] if source_class.nil?
+
+      source_class.where(**source_scope).public_send(offerable_template.whitelist)
+    end
+
     # TODO: Update offerable_template.scopes to return an array of Scope objects and delegate to that instead
     def scopes
       return @scopes if @scopes.present?

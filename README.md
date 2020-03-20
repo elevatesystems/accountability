@@ -110,8 +110,7 @@ config.dev_tools_enabled = true
 ```
 
 ## Advanced Usage
-### Defining Offerable Content
-#### Scopes
+### Product Scopes
 Scoping options can be defined to constrain products to a narrower set of records. Let's say that we want to sell both large and small baskets:
 ```ruby
 class Basket < ApplicationRecord
@@ -119,6 +118,21 @@ class Basket < ApplicationRecord
   
   acts_as_offerable do |offer|
     offer.add_scope :style, title: 'Size', options: %i[small large] 
+  end
+end
+```
+
+### Inventory Whitelist
+To hide records from the inventory without de-scoping them from the product, you can specify an existing ActiveRecord scope to define the available inventory with.  
+
+This can be useful for excluding inventory that is sold, reserved, or otherwise unavailable.
+
+```ruby
+class Basket < ApplicationRecord
+  scope :in_warehouse, -> { where arrived_at_warehouse: true }
+  
+  acts_as_offerable do |offer|
+    offer.inventory_whitelist :in_warehouse 
   end
 end
 ```
