@@ -142,7 +142,24 @@ end
 #### Dynamic Pricing
 AKA traits
 
+## Contributing
+The only current contribution guideline is that we ask contributors to include detailed commit descriptions and avoid pushing merge commits.
+
+### Versioning
+The version number listed in `lib/accountability/version.rb` is the version being actively developed.
+
+It is formatted `MAJOR.MINOR.TINY`:
+- MAJOR - Will be set to `1` once ready for public use, at which point we will switch to semantic versioning. 
+- MINOR - Is bumped prior to implementing breaking changes.
+- TINY - Is bumped after implementing new features other meaningful changes.
+
+Rebuild the gem after updating the `version.rb` file.
+```bash
+gem build accountability.gemspec
+```
+
 ## TODO
 - [ ] Finish implementing multi-tenanting features
-- [ ] Add support for controller overrides
-- [ ] Implement product creation workflow in views
+- [ ] Update views to support full E-commerce functionality out of the box
+- [ ] Add test coverage
+- [ ] Add test helpers
