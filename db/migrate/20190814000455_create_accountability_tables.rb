@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/LineLength
 # rubocop:disable Metrics/MethodLength
 
 class CreateAccountabilityTables < ActiveRecord::Migration[6.0]
@@ -136,11 +137,21 @@ class CreateAccountabilityTables < ActiveRecord::Migration[6.0]
       t.text :billing_address, default: nil, null: true # JSON serialized value object
       t.text :active_merchant_data, default: nil, null: true # JSON serialized data for ActiveMerchant
       t.integer :provider, default: 0, null: false # [unselected, stripe]
-      t.string :token, default: nil, null: true # A token used to retrieve & charge the payment method from the provider
+      t.string :token, default: nil, null: true # Used to retrieve & charge the payment method from the provider
       t.string :configuration_name, default: nil, null: true # A name for the payment method
       t.string :contact_email, default: nil, null: true
       t.string :contact_first_name, default: nil, null: true
       t.string :contact_last_name, default: nil, null: true
+
+      t.timestamps
+    end
+
+    create_table :accountability_price_overrides do |t|
+      t.belongs_to :product, index: { name: :index_product_on_price_override }
+      t.belongs_to :offerable_source, null: false, polymorphic: true, index: { name: :index_offerable_source_on_price_override }
+
+      t.decimal :price, default: 0.00, precision: 8, scale: 2, null: false # The inventory item's new price
+      t.text :description, default: nil, null: true, limit: 10_000 # Optional field for describing adjustment rationale
 
       t.timestamps
     end

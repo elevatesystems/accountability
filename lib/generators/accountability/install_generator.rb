@@ -15,11 +15,32 @@ module Accountability
       end
 
       def copy_migration
-        migration_template 'migration.rb', 'db/migrate/create_accountability_tables.rb', migration_version: migration_version
+        # Note: migration.rb is always up-to-date
+        if fresh_installation?
+          destination = 'db/migrate/create_accountability_tables.rb'
+          migration_template 'migration.rb', destination, migration_version: migration_version
+          return true
+        end
+
+        # Existing applications may need new migration files
+        if missing_price_overrides?
+          destination = 'db/migrate/create_accountability_price_overrides_tables.rb'
+          migration_template 'price_overrides_migration.rb', destination, migration_version: migration_version
+        end
       end
 
       def migration_version
         "[#{ActiveRecord::VERSION::MAJOR}.#{ActiveRecord::VERSION::MINOR}]"
+      end
+
+      private
+
+      def fresh_installation?
+        !ActiveRecord::Base.connection.table_exists?('accountability_accounts')
+      end
+
+      def missing_price_overrides?
+        !ActiveRecord::Base.connection.table_exists?('accountability_price_overrides')
       end
     end
   end

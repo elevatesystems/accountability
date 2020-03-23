@@ -1,0 +1,13 @@
+class <%= migration_class_name %> < ActiveRecord::Migration<%= migration_version %>
+  def change
+    create_table :accountability_price_overrides do |t|
+      t.belongs_to :product, index: { name: :index_product_on_price_override }
+      t.belongs_to :offerable_source, null: false, polymorphic: true, index: { name: :index_offerable_source_on_price_override }
+
+      t.decimal :price, default: 0.00, precision: 8, scale: 2, null: false # The inventory item's new price
+      t.text :description, default: nil, null: true, limit: 10_000 # Optional field for describing adjustment rationale
+
+      t.timestamps
+    end
+  end
+end
