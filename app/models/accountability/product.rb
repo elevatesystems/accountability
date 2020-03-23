@@ -13,6 +13,7 @@ module Accountability
 
     has_and_belongs_to_many :coupons
     has_many :order_items, dependent: :restrict_with_error
+    has_many :price_overrides, dependent: :destroy
     has_many :credits, through: :order_items, inverse_of: :product
 
     serialize :source_scope, Hash

@@ -14,6 +14,11 @@ module Accountability
           end
 
           self.acts_as = acts_as.dup << :offerable
+
+          if reflections['price_overrides'].blank?
+            has_many :price_overrides, class_name: 'Accountability::PriceOverride',
+                     as: :offerable_source, dependent: :destroy
+          end
         end
 
         alias_method :acts_as_offerable, :has_offerable
