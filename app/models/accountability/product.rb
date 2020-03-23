@@ -33,6 +33,12 @@ module Accountability
       end
     end
 
+    # Returns an Inventory object containing each record within the product's scope.
+    # This method will eventually phase out the `inventory` and `available_inventory` methods.
+    def inventory_items
+      Inventory.new(self)
+    end
+
     def inventory
       return [] if source_class.nil?
 
