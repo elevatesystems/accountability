@@ -25,7 +25,7 @@ module Accountability
     end
 
     def collection
-      records = source_class.where(**source_scope)
+      records = source_class.where(**source_scope).includes(:price_overrides)
       records = records.public_send(offerable_template.whitelist) if scope_availability?
 
       records.map { |record| InventoryItem.new(record: record, product: product) }
@@ -48,7 +48,9 @@ module Accountability
       end
 
       def price
-        product.price
+        # Iterating pre-loaded content is faster with Ruby than an N+1 in SQL
+        price_override = record.price_overrides.find { |override| override.product_id == product.id }
+        price_override&.price || product.price
       end
     end
 
