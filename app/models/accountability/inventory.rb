@@ -55,6 +55,10 @@ module Accountability
         @record = record
         @product = product
         @inventory = inventory
+
+        # Expose source record through offerable's name
+        record_alias = product.offerable_category.to_sym
+        alias :"#{record_alias}" record
       end
 
       def price
