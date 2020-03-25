@@ -31,11 +31,18 @@ module Accountability
     def source_records
       records = source_class.where(**source_scope).includes(:price_overrides)
       records = records.public_send(offerable_template.whitelist) if scope_availability?
+      records = records.order(@order_params) if @order_params.present?
       records
     end
 
     def available
       @scope_availability = true
+
+      self
+    end
+
+    def order(order_params)
+      @order_params = order_params
 
       self
     end
