@@ -51,7 +51,15 @@ class Accountability::OrderItem < ApplicationRecord
   end
 
   def default_price
-    product.price
+    price_override&.price || product.price
+  end
+
+  def price_override
+    return @price_override unless @price_override.nil?
+    return unless source_records.one?
+
+    # Memoize as `false` if nil to avoid re-running query
+    @price_override = product.price_overrides.find_by(offerable_source: source_records) || false
   end
 
   def trigger_callback(trigger)
@@ -76,9 +84,11 @@ class Accountability::OrderItem < ApplicationRecord
   end
 
   def source_records
+    return @source_records unless @source_records.nil?
+
     return [] if source_scope.empty?
     return [] if product.source_class.nil?
 
-    product.source_class.where(**source_scope)
+    @source_records = product.source_class.where(**source_scope)
   end
 end
