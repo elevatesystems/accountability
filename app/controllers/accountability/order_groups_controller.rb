@@ -16,12 +16,15 @@ module Accountability
     def edit; end
 
     def create
-      @order_group = OrderGroup.new(order_group_params)
+      @order_group = params[:order_group].present? ? OrderGroup.new(order_group_params) : OrderGroup.new
+      source_scope = params.to_unsafe_h[:source_scope]&.symbolize_keys
 
       if @order_group.save
-        redirect_to accountability_order_groups_path, notice: 'Successfully created new order_group'
+        @order_group.add_item!(params[:product_id], source_scope: source_scope) if params[:product_id].present?
+
+        redirect_to accountability_order_group_path(@order_group), notice: 'Successfully created new order_group'
       else
-        render :new
+        redirect_back fallback_location: root_path, alert: 'Failed to create cart'
       end
     end
 
