@@ -43,7 +43,9 @@ module Accountability
 
     def add_item
       product = Product.find(params[:product_id])
-      if @order_group.add_item! product
+      source_scope = params.to_unsafe_h[:source_scope]&.symbolize_keys
+
+      if @order_group.add_item! product, source_scope: source_scope
         redirect_to accountability_order_group_path(current_order_group), notice: 'Successfully added to cart'
       else
         redirect_back fallback_location: accountability_order_groups_path, alert: 'Failed to add to cart'

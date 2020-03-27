@@ -29,8 +29,11 @@ module Accountability
       order_items.each(&:accrue_credit!)
     end
 
-    def add_item!(product)
-      order_items.create! product: product
+    # The `product` parameter accepts Product, String, and Integer objects
+    def add_item!(product, source_scope: nil)
+      product = Product.find(product) unless product.is_a? Product
+
+      order_items.create! product: product, source_scope: source_scope.presence
     end
 
     def unassigned?
