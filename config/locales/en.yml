@@ -7,6 +7,8 @@ en:
         quantity: "Bundle Size"
         sku: "SKU"
   accountability:
+    errors:
+      not_permitted: 'is not permitted'
     gateway:
       errors:
         unknown_gateway_error: "An unknown gateway error has occurred"

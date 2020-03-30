@@ -14,6 +14,14 @@ module Accountability
 
         validates :address_1, :city, :state, :country, presence: true
         validates :zip, numericality: { only_integer: true }
+        validate :validate_country_whitelisted
+
+        def validate_country_whitelisted
+          return unless Configuration.country_whitelist.present?
+          return if country.blank?
+
+          errors.add(:country, :not_permitted) unless Configuration.country_whitelist.include? country
+        end
       end
 
       class BillingAddressType < ActiveModel::Type::Value
