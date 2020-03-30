@@ -46,6 +46,8 @@ module Accountability
     private
 
     def store_card_in_gateway(gateway = initialize_payment_gateway)
+      raise 'No token found' if token.blank?
+
       gateway.store(token, description: configuration_name, email: contact_email, set_default: true)
     end
 
