@@ -53,6 +53,9 @@ module Accountability
     end
 
     def updated_billing_elements
+      return unless partial_exists? 'configurations', within: 'accountability/accounts/billing_configurations'
+      return unless partial_exists? 'payment_form', within: 'accountability/accounts'
+
       configurations_partial = 'accountability/accounts/billing_configurations/configurations'
       payment_form_partial = 'accountability/accounts/payment_form'
 

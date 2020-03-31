@@ -44,4 +44,8 @@ class AccountabilityController < ApplicationController
     order_group_id = session[:current_order_group_id]
     Accountability::OrderGroup.find_by(id: order_group_id)
   end
+
+  def partial_exists?(partial_name, within:)
+    helpers.lookup_context.template_exists?(partial_name, within, true)
+  end
 end
