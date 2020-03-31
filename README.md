@@ -102,6 +102,19 @@ config.tax_rate = 9.53
 
 Note that products can be marked as tax exempt.  
 
+#### Country Whitelist
+To limit which countries your application accepts credit cards from, you can define a whitelist.
+
+The whitelist must be an array of [two-character ISO country codes](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements). 
+
+```ruby
+config.country_whitelist = %w[US CA MX]
+``` 
+
+When a `country_whitelist` is specified, the BillingConfiguration's country field will be validated for inclusion.
+
+The first country listed in the whitelist will be used as the default value for all new BillingConfiguration records. 
+
 #### Debugger tools
 To print helpful session information in the views such as the currently tracked billable entity, enable the dev tools.
 
@@ -151,7 +164,7 @@ The version number listed in `lib/accountability/version.rb` is the version bein
 It is formatted `MAJOR.MINOR.TINY`:
 - MAJOR - Will be set to `1` once ready for public use, at which point we will switch to semantic versioning. 
 - MINOR - Is bumped prior to implementing breaking changes.
-- TINY - Is bumped after implementing new features other meaningful changes.
+- TINY - Is bumped after implementing new features or other meaningful changes.
 
 Rebuild the gem after updating the `version.rb` file.
 ```bash
