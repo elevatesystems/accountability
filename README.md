@@ -102,6 +102,19 @@ config.tax_rate = 9.53
 
 Note that products can be marked as tax exempt.  
 
+
+
+#### Automatic billing
+By default, customers' credit cards are only charged when they voluntarily make a payment.
+
+This behavior can be changed so that they are charged each time their account accrues new credits.
+
+```ruby
+config.automatic_billing_enabled = true
+```
+
+Note that users will only be charged for the change in balance - not the full amount remaining.
+
 #### Country Whitelist
 To limit which countries your application accepts credit cards from, you can define a whitelist.
 

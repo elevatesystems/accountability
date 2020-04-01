@@ -1,7 +1,7 @@
 module Accountability
   class Configuration
     class << self
-      attr_accessor :logo_path, :payment_gateway, :dev_tools_enabled, :country_whitelist
+      attr_accessor :logo_path, :payment_gateway, :dev_tools_enabled, :automatic_billing_enabled, :country_whitelist
       attr_writer :tax_rate, :admin_checker, :billable_identifier, :billable_name_column
 
       def tax_rate
@@ -30,6 +30,10 @@ module Accountability
 
       def dev_tools_enabled?
         !!dev_tools_enabled
+      end
+
+      def automatic_billing_enabled?
+        !!automatic_billing_enabled
       end
     end
   end
