@@ -17,6 +17,8 @@ module Accountability
 
     enum statement_schedule: %i[end_of_month bi_weekly]
 
+    delegate :charge, to: :primary_billing_configuration
+
     def build_billing_configuration_with_active_merchant_data(billing_configuration_params, **options)
       billing_configuration = billing_configurations.build(billing_configuration_params)
       # We don't want to run this too often as it does create a charge against the card when verify_card is true.
