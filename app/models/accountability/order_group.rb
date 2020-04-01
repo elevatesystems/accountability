@@ -29,6 +29,10 @@ module Accountability
       order_items.each(&:accrue_credit!)
     end
 
+    def raw_total
+      order_items.sum(&:default_price)
+    end
+
     # The `product` parameter accepts Product, String, and Integer objects
     def add_item!(product, source_scope: nil)
       product = Product.find(product) unless product.is_a? Product
