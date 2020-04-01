@@ -26,7 +26,12 @@ module Accountability
     def accrue_credits!
       return unless complete?
 
+      initial_balance = account.balance
       order_items.each(&:accrue_credit!)
+      current_balance = account.balance
+
+      amount_charged = initial_balance - current_balance
+      account.charge(amount_charged) if Configuration.automatic_billing_enabled?
     end
 
     def raw_total
