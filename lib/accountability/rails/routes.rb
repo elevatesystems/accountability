@@ -37,7 +37,10 @@ module ActionDispatch::Routing
         resources :products, controller: options.dig(:controllers, :products), path: options.dig(:routes, :products)
 
         resources :order_groups, controller: options.dig(:controllers, :order_groups), path: options.dig(:routes, :order_groups) do
-          member { post :add_item }
+          member do
+            post :add_item
+            put :checkout
+          end
         end
       end
 

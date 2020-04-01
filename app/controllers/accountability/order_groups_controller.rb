@@ -55,6 +55,16 @@ module Accountability
       end
     end
 
+    def checkout
+      @order_group.assign_account!(helpers.current_account) if @order_group.unassigned?
+
+      if @order_group.checkout!
+        redirect_to after_checkout_path(@order_group), notice: 'Checkout complete'
+      else
+        redirect_back fallback_location: accountability_order_group_path(@order_group), alert: 'Failed to check out'
+      end
+    end
+
     private
 
     def set_order_group
@@ -63,6 +73,10 @@ module Accountability
 
     def order_group_params
       params.require(:order_group).permit
+    end
+
+    def after_checkout_path(_order_group)
+      accountability_order_groups_path
     end
   end
 end
