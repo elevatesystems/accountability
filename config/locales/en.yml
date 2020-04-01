@@ -7,6 +7,17 @@ en:
         quantity: "Bundle Size"
         sku: "SKU"
   accountability:
+    flash:
+      order_groups:
+        create_success: 'Successfully created new order group'
+        create_failure: 'Failed to create cart'
+        update_success: 'Successfully updated order group'
+        destroy_success: 'Successfully destroyed order group'
+        destroy_failure: 'There was an issue destroying order group'
+        add_item_success: 'Successfully added to cart'
+        add_item_failure: 'Failed to add to cart'
+        checkout_success: 'Checkout complete'
+        checkout_failure: 'Failed to check out'
     errors:
       not_permitted: 'is not permitted'
     gateway:

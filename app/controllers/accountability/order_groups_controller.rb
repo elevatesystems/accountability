@@ -22,15 +22,18 @@ module Accountability
       if @order_group.save
         @order_group.add_item!(params[:product_id], source_scope: source_scope) if params[:product_id].present?
 
-        redirect_to accountability_order_group_path(@order_group), notice: 'Successfully created new order_group'
+        notice = I18n.t('accountability.flash.order_groups.create_success')
+        redirect_to accountability_order_group_path(@order_group), notice: notice
       else
-        redirect_back fallback_location: root_path, alert: 'Failed to create cart'
+        alert = I18n.t('accountability.flash.order_groups.create_failure')
+        redirect_back fallback_location: root_path, alert: alert
       end
     end
 
     def update
       if @order_group.update(order_group_params)
-        redirect_to accountability_order_groups_path, notice: 'Successfully updated order_group'
+        notice = I18n.t('accountability.flash.order_groups.update_success')
+        redirect_to accountability_order_groups_path, notice: notice
       else
         render :edit
       end
@@ -38,9 +41,11 @@ module Accountability
 
     def destroy
       if @order_group.destroy
-        redirect_to accountability_order_groups_path, notice: 'Successfully destroyed order_group'
+        notice = I18n.t('accountability.flash.order_groups.destroy_success')
+        redirect_to accountability_order_groups_path, notice: notice
       else
-        redirect_to accountability_order_groups_path, alert: 'There was an issue destroying order_group'
+        alert = I18n.t('accountability.flash.order_groups.destroy_failure')
+        redirect_to accountability_order_groups_path, alert: alert
       end
     end
 
@@ -49,9 +54,11 @@ module Accountability
       source_scope = params.to_unsafe_h[:source_scope]&.symbolize_keys
 
       if @order_group.add_item! product, source_scope: source_scope
-        redirect_to accountability_order_group_path(current_order_group), notice: 'Successfully added to cart'
+        notice = I18n.t('accountability.flash.order_groups.add_item_success')
+        redirect_to accountability_order_group_path(current_order_group), notice: notice
       else
-        redirect_back fallback_location: accountability_order_groups_path, alert: 'Failed to add to cart'
+        alert = I18n.t('accountability.flash.order_groups.add_item_failure')
+        redirect_back fallback_location: accountability_order_groups_path, alert: alert
       end
     end
 
@@ -59,9 +66,11 @@ module Accountability
       @order_group.assign_account!(helpers.current_account) if @order_group.unassigned?
 
       if @order_group.checkout!
-        redirect_to after_checkout_path(@order_group), notice: 'Checkout complete'
+        notice = I18n.t('accountability.flash.order_groups.checkout_success')
+        redirect_to after_checkout_path(@order_group), notice: notice
       else
-        redirect_back fallback_location: accountability_order_group_path(@order_group), alert: 'Failed to check out'
+        alert = I18n.t('accountability.flash.order_groups.checkout_failure')
+        redirect_back fallback_location: accountability_order_group_path(@order_group), alert: alert
       end
     end
 
