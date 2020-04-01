@@ -12,6 +12,10 @@ class Accountability::ApplicationRecord < ActiveRecord::Base
 
   def validate_validatable_attributes
     validatable_attribute_names.each do |attribute_name|
+      # This is a fragile, temporary patch for an issue caused by the misuse of class attributes.
+      # TODO: Rework validatable_attributes with isolated variable scope
+      next unless self.respond_to? attribute_name
+
       attribute = public_send attribute_name
 
       next if attribute.blank?
