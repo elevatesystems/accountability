@@ -51,7 +51,9 @@ class Accountability::OrderItem < ApplicationRecord
   end
 
   def default_price
-    price_override&.price || product.price
+    return price_override.price if price_override.present?
+
+    product.price
   end
 
   def price_override
