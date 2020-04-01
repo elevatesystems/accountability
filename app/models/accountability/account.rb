@@ -13,6 +13,7 @@ module Accountability
     has_many :credits, dependent: :destroy
     has_many :debits, dependent: :destroy
     has_many :billing_configurations, dependent: :destroy
+    has_one :primary_billing_configuration, -> { order(primary: :desc) }, class_name: 'BillingConfiguration', inverse_of: :account
 
     enum statement_schedule: %i[end_of_month bi_weekly]
 
