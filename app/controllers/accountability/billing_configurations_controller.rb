@@ -53,19 +53,22 @@ module Accountability
     end
 
     def updated_billing_elements
-      return unless partial_exists? 'configurations', within: 'accountability/accounts/billing_configurations'
-      return unless partial_exists? 'payment_form', within: 'accountability/accounts'
-
-      configurations_partial = 'accountability/accounts/billing_configurations/configurations'
-      payment_form_partial = 'accountability/accounts/payment_form'
+      payment_form_partial = 'accounts/payment_form'
+      configurations_partial = 'accounts/billing_configurations/configurations'
 
       {
-        configurations: render_to_string(partial: configurations_partial, layout: false, locals: { account: @account }),
-        payment_form: render_to_string(partial: payment_form_partial, layout: false, locals: { account: @account })
+        payment_form: safe_render_partial_to_string(payment_form_partial),
+        configurations: safe_render_partial_to_string(configurations_partial)
       }
     end
 
     private
+
+    def safe_render_partial_to_string(partial)
+      return unless partial_exists?(partial)
+
+      render_to_string(partial: partial, layout: false, locals: { account: @account })
+    end
 
     def set_billing_configuration
       @billing_configuration = BillingConfiguration.find(params[:id])
