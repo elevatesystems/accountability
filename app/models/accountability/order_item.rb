@@ -21,7 +21,13 @@ class Accountability::OrderItem < ApplicationRecord
   end
 
   def terminate!(date: Time.current)
-    update termination_date: date
+    transaction do
+      trigger_callback :before_terminate
+
+      update termination_date: date
+
+      trigger_callback :after_terminate
+    end
   end
 
   def terminated?
