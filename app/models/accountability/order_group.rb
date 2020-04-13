@@ -13,9 +13,9 @@ module Accountability
     validates :account, presence: true, if: :complete?
 
     def checkout!
-      trigger_callback :before_checkout
-
       transaction do
+        trigger_callback :before_checkout
+
         complete!
         accrue_credits!
 
