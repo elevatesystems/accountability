@@ -2,6 +2,7 @@ module Accountability
   class BillingConfiguration < ApplicationRecord
     include Accountability::ActiveMerchantInterface
     after_initialize :set_provider, :set_default_country, if: :new_record?
+    after_create :set_default_primary
 
     belongs_to :account
     has_many :payments, dependent: :restrict_with_error
@@ -43,6 +44,12 @@ module Accountability
       return unless Configuration.country_whitelist.present?
 
       self.billing_address.country = Configuration.country_whitelist.first
+    end
+
+    def set_default_primary
+      return unless account.billing_configurations.one?
+
+      primary!
     end
   end
 end
