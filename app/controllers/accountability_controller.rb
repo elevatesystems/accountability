@@ -45,7 +45,7 @@ class AccountabilityController < ApplicationController
     Accountability::OrderGroup.find_by(id: order_group_id)
   end
 
-  def partial_exists?(partial_name, within:)
+  def partial_exists?(partial_name, within: [])
     helpers.lookup_context.template_exists?(partial_name, within, true)
   end
 end
