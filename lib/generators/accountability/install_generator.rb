@@ -27,6 +27,11 @@ module Accountability
           destination = 'db/migrate/create_accountability_price_overrides_tables.rb'
           migration_template 'price_overrides_migration.rb', destination, migration_version: migration_version
         end
+
+        if missing_payments_null_true?
+          destination = 'db/migrate/remove_accountability_payments_on_billing_configuration_not_null_constraint.rb'
+          migration_template 'remove_payments_on_billing_configuration_not_null_constraint.rb', destination, migration_version: migration_version
+        end
       end
 
       def migration_version
@@ -41,6 +46,15 @@ module Accountability
 
       def missing_price_overrides?
         !ActiveRecord::Base.connection.table_exists?('accountability_price_overrides')
+      end
+
+      # Previously, the belong_to billing configuration on payments was not optional.
+      # To allow for deletion of billing configurations, it has been set to optional.
+      def missing_payments_null_true?
+        payments_columns = ActiveRecord::Base.connection.columns('accountability_payments')
+        billing_configuration_id = payments_columns.find { |column| column if column.name == 'billing_configuration_id' }
+
+        true if billing_configuration_id&.null == false
       end
     end
   end

@@ -2,7 +2,7 @@ class Accountability::Payment < ApplicationRecord
   after_validation :process_transaction!, if: :pending?
 
   belongs_to :account
-  belongs_to :billing_configuration
+  belongs_to :billing_configuration, optional: true
 
   has_one :debit, dependent: :restrict_with_error
 
