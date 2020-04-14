@@ -8,20 +8,25 @@ class Accountability::Payment < ApplicationRecord
 
   enum status: %i[pending processing complete failed]
 
-  validates :amount, presence: true, numericality: { greater_than: 10.00 }
+  validates :amount, presence: true
 
   def process_transaction!
     return if debit.present?
     return if errors.present?
 
-    if billing_configuration.charge(amount)
-      self.status = :complete
+    charge!
+  end
+
+  def charge!
+    transaction do
+      processing!
+      billing_configuration.charge(amount) unless amount.zero?
       build_debit(account: account, amount: amount)
-    elsif billing_configuration.invalid?
-      self.status = :failed
+    rescue ActiveRecord::RecordInvalid
+      failed!
       billing_configuration.errors.full_messages.each { |error| errors.add(:base, error.titleize) }
     else
-      self.status = :failed
+      complete!
     end
   end
 end
