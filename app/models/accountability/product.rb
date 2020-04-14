@@ -12,13 +12,15 @@ module Accountability
     RECURRING_SCHEDULES = %i[weekly monthly annually].freeze
 
     has_and_belongs_to_many :coupons
-    has_many :order_items, dependent: :restrict_with_error
+    has_many :order_items, inverse_of: :product, dependent: :restrict_with_error
     has_many :price_overrides, dependent: :destroy
     has_many :credits, through: :order_items, inverse_of: :product
 
     serialize :source_scope, Hash
 
     enum schedule: [:one_time, *RECURRING_SCHEDULES], _prefix: :accrues
+
+    scope :recurring, -> { where(schedule: RECURRING_SCHEDULES) }
 
     def active?
       return false unless activation_date.present?
