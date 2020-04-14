@@ -5,7 +5,7 @@ module Accountability
     after_create :set_default_primary
 
     belongs_to :account
-    has_many :payments, dependent: :restrict_with_error
+    has_many :payments, dependent: :nullify
 
     attribute :billing_address, :billing_address, default: {}
     attribute :active_merchant_data, :json, default: {}

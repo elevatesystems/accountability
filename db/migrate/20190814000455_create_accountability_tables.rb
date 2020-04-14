@@ -39,7 +39,7 @@ class CreateAccountabilityTables < ActiveRecord::Migration[6.0]
 
     create_table :accountability_payments do |t|
       t.belongs_to :account, null: false, index: { name: :index_account_on_payment }
-      t.belongs_to :billing_configuration, null: false, index: { name: :index_billing_configuration_on_payment }
+      t.belongs_to :billing_configuration, null: true, index: { name: :index_billing_configuration_on_payment }
 
       t.decimal :amount, default: 0.00, precision: 8, scale: 2, null: false
       t.integer :status, default: 0, null: false # Pending, Processing, Complete, Failed
