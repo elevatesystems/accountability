@@ -17,7 +17,12 @@ module Accountability
 
     enum statement_schedule: %i[end_of_month bi_weekly]
 
-    delegate :charge, to: :primary_billing_configuration
+    # TODO: Consider renaming ActiveMerchantInterface#charge or this method, and then
+    #       move into BillingConfiguration so we can just delegate like so:
+    #       `delegate :charge, to: :primary_billing_configuration`.
+    def charge(amount)
+      payments.create! amount: amount, billing_configuration: primary_billing_configuration
+    end
 
     def build_billing_configuration_with_active_merchant_data(billing_configuration_params, **options)
       billing_configuration = billing_configurations.build(billing_configuration_params)
