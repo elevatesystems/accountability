@@ -2,13 +2,16 @@
 # They are stored in an OrderGroup, which acts like a shopping cart
 
 class Accountability::OrderItem < ApplicationRecord
-  belongs_to :product
+  belongs_to :product, inverse_of: :order_items
   belongs_to :order_group
   has_one :account, through: :order_group
   has_many :credits, dependent: :destroy
   has_many :discounts, dependent: :destroy
 
   serialize :source_scope, Hash
+
+  scope :active, -> { where(termination_date: Time.current..DateTime::Infinity.new).or(where(termination_date: nil)) }
+  scope :recurring, -> { joins(:product).merge(Accountability::Product.recurring) }
 
   delegate :name, to: :product, prefix: true
 
