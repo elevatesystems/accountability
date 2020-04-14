@@ -23,7 +23,7 @@ module Accountability
     scope :recurring, -> { where(schedule: RECURRING_SCHEDULES) }
 
     def active?
-      return false unless activation_date.present?
+      return false if activation_date.blank?
 
       activation_date.past?
     end
