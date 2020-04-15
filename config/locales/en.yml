@@ -18,6 +18,7 @@ en:
         add_item_failure: 'Failed to add to cart'
         checkout_success: 'Checkout complete'
         checkout_failure: 'Failed to check out'
+        checkout_failure_with_errors: 'Failed to check out: %{errors}'
     errors:
       not_permitted: 'is not permitted'
     gateway:

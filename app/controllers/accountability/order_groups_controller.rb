@@ -69,7 +69,12 @@ module Accountability
         notice = I18n.t('accountability.flash.order_groups.checkout_success')
         redirect_to after_checkout_path(@order_group), notice: notice
       else
-        alert = I18n.t('accountability.flash.order_groups.checkout_failure')
+        if @order_group.errors.blank?
+          alert = I18n.t('accountability.flash.order_groups.checkout_failure')
+        else
+          errors = @order_group.errors.full_messages.join(',')
+          alert = I18n.t('accountability.flash.order_groups.checkout_failure_with_errors', errors: errors)
+        end
         redirect_back fallback_location: accountability_order_group_path(@order_group), alert: alert
       end
     end

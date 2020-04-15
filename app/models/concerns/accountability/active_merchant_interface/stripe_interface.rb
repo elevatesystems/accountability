@@ -10,7 +10,7 @@ module Accountability
 
       # It is important to clear these errors after validation
       # so that store_active_merchant_data will run again.
-      after_validation :clear_stripe_api_errors, on: :create
+      after_validation :clear_stripe_api_errors, on: %i[create update]
       after_save_commit :save_customer_info_to_stripe
     end
 
