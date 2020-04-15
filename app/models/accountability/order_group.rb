@@ -16,7 +16,8 @@ module Accountability
       transaction(requires_new: true, joinable: false) do
         trigger_callback :before_checkout
 
-        complete!
+        complete! && validate!
+        account.primary_billing_configuration.validate!
 
         # Without this transaction block, the credits will
         # stick around, and not try to charge again.
