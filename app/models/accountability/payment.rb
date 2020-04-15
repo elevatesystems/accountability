@@ -18,19 +18,21 @@ class Accountability::Payment < ApplicationRecord
   end
 
   def charge!
-    transaction do
-      processing!
+    processing!
 
+    transaction(requires_new: true, joinable: false) do
       # Do not attempt to create charges for 0. Most payment processors
       # will not allow that.
-      billing_configuration.charge(amount) unless amount.zero?
+      if amount.positive?
+        billing_configuration.charge(amount)
+      end
 
-      build_debit(account: account, amount: amount)
+      build_debit(account: account, amount: amount) if billing_configuration.validate!
+      complete!
     rescue ActiveRecord::RecordInvalid
       failed!
       billing_configuration.errors.full_messages.each { |error| errors.add(:base, error.titleize) }
-    else
-      complete!
+      raise ActiveRecord::Rollback
     end
   end
 end

@@ -13,13 +13,29 @@ module Accountability
     validates :account, presence: true, if: :complete?
 
     def checkout!
-      transaction do
+      transaction(requires_new: true, joinable: false) do
         trigger_callback :before_checkout
 
         complete!
-        accrue_credits!
+
+        # Without this transaction block, the credits will
+        # stick around, and not try to charge again.
+        transaction(requires_new: true, joinable: false) do
+          accrue_credits!
+        end
 
         trigger_callback :after_checkout
+      rescue ActiveRecord::RecordInvalid => invalid
+        pending!
+
+        # TODO: Rework all code introduced in the commit that
+        #       added this comment.
+        invalid.record.errors.full_messages.each do |error|
+          errors.add(:base, error.titleize)
+        end
+
+        # Return false to ensure that the controller knows that checkout failed.
+        false
       end
     end
 

@@ -25,10 +25,10 @@ module Accountability
     end
 
     def terminate!(date: Time.current)
-      transaction do
+      transaction(requires_new: true, joinable: false) do
         trigger_callback :before_terminate
 
-        update termination_date: date
+        update! termination_date: date
 
         trigger_callback :after_terminate
       end
@@ -57,6 +57,7 @@ module Accountability
     end
 
     def last_accruement_date
+      credits.reload
       credits.maximum(:created_at)
     end
 
