@@ -1,6 +1,28 @@
 # Accountability
 An extensible Rails library for easy product & billing management.
 
+## Table of Contents
+- [Usage](#usage)
+  * [Installing the gem](#installing-the-gem)
+  * [Adding routes](#adding-routes)
+  * [Defining billable models](#defining-billable-models)
+  * [Defining products](#defining-products)
+  * [Customizing configuration options](#customizing-configuration-options)
+    + [Customer identification](#customer-identification)
+    + [Tax rates](#tax-rates)
+    + [Automatic billing](#automatic-billing)
+    + [Country Whitelist](#country-whitelist)
+    + [Debugger tools](#debugger-tools)
+- [Advanced Usage](#advanced-usage)
+  * [Product Scopes](#product-scopes)
+  * [Inventory Whitelist](#inventory-whitelist)
+    + [Callbacks](#callbacks)
+    + [Multi-Tenancy](#multi-tenancy)
+    + [Dynamic Pricing](#dynamic-pricing)
+- [Contributing](#contributing)
+  * [Versioning](#versioning)
+- [TODO](#todo)
+
 ## Usage
 ### Installing the gem
 To get started, add Accountability to your application's Gemfile.
@@ -189,3 +211,4 @@ gem build accountability.gemspec
 - [ ] Update views to support full E-commerce functionality out of the box
 - [ ] Add test coverage
 - [ ] Add test helpers
+- [ ] Improve documentation
