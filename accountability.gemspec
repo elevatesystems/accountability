@@ -21,10 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir['{app,config,db,lib}/**/*', 'MIT-LICENSE', 'README.md']
 
+  # Declare any development dependencies in the Gemfile.
+
   spec.add_dependency 'active_accountability_merchant'
   spec.add_dependency 'prawn'
   spec.add_dependency 'prawn-table'
   spec.add_dependency 'rails' # Verified on '~> 6.0.0.rc2'
-
-  spec.add_development_dependency 'sqlite3'
 end
