@@ -1,7 +1,11 @@
 # Accountability
 An extensible Rails library for easy product & billing management.
 
+**Note:**
+Accountability is still in its infancy. It is untested and mostly undocumented.
+
 ## Table of Contents
+- [Overview](#overview)
 - [Usage](#usage)
   * [Installing the gem](#installing-the-gem)
   * [Adding routes](#adding-routes)
@@ -22,6 +26,15 @@ An extensible Rails library for easy product & billing management.
 - [Contributing](#contributing)
   * [Versioning](#versioning)
 - [TODO](#todo)
+
+## Overview
+Accountability is extremely versatile and can be used for a variety of applications from traditional E-Commerce sites to complex SASS services. 
+
+It works by allowing **__products__** to be defined for models marked as **__offerable.__**
+Products can be defined with event callbacks, inventory scopes, recurring billing, and other options.  
+
+Records of the **__billable__** model (users) are automatically associated with a billing **__account__** that tracks their balance, orders, payments, statements, and credit cards.
+The payment gateway integration is designed to be configurable, although currently only Stripe is supported.  
 
 ## Usage
 ### Installing the gem
@@ -212,3 +225,4 @@ gem build accountability.gemspec
 - [ ] Add test coverage
 - [ ] Add test helpers
 - [ ] Improve documentation
+- [ ] Integrate with additional payment gateways
