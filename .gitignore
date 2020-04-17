@@ -4,6 +4,8 @@ log/*
 tmp/*
 .sas_ftp_cred
 **.DS_Store
+doc/*
+.yardoc/*
 
 # Rubymine
 .idea/
