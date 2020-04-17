@@ -6,4 +6,5 @@ gemspec
 
 group :development do
   gem 'sqlite3'
+  gem 'yard', require: false
 end
