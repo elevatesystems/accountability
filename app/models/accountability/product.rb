@@ -36,18 +36,21 @@ module Accountability
       end
     end
 
+    # @return [Inventory] containing each record within the product's scope.
     # Returns an Inventory object containing each record within the product's scope.
     # This method will eventually phase out the `inventory` and `available_inventory` methods.
     def inventory_items
       Inventory.new(self)
     end
 
+    # @deprecated Use {#inventory_items} instead.
     def inventory
       return [] if source_class.nil?
 
       source_class.where(**source_scope)
     end
 
+    # @deprecated Call .available on {#inventory_items} instead.
     def available_inventory
       return [] if source_class.nil?
 
