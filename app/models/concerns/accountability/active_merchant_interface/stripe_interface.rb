@@ -23,8 +23,7 @@ module Accountability
 
       return true if response.success?
 
-      error_code = response.error_code || I18n.t('accountability.gateway.errors.unknown_gateway_error')
-      stripe_api_errors.append(error_code)
+      translate_and_append_error_code(response.error_code)
       false
     end
 
@@ -32,8 +31,8 @@ module Accountability
       response = store_card_in_gateway
 
       unless response.success?
-        error_code = response.error_code || I18n.t('accountability.gateway.errors.unknown_gateway_error')
-        stripe_api_errors.append(error_code)
+
+        translate_and_append_error_code(response.error_code)
         return
       end
 
@@ -44,6 +43,12 @@ module Accountability
     end
 
     private
+
+    # Translates error codes from stripe into our I18n localizations and push them into stripe_api_errors.
+    def translate_and_append_error_code(error_code)
+      translated_error_code = I18n.t("accountability.gateway.errors.#{error_code}", default: 'accountability.gateway.errors.config_error')
+      stripe_api_errors.append(translated_error_code)
+    end
 
     def store_card_in_gateway(gateway = initialize_payment_gateway)
       raise 'No token found' if token.blank?
@@ -57,8 +62,7 @@ module Accountability
       response = gateway.verify(authorization, verification_params)
       return if response.success?
 
-      error_code = response.error_code || I18n.t('accountability.gateway.errors.unknown_gateway_error')
-      stripe_api_errors.append(error_code)
+      translate_and_append_error_code(response.error_code)
     end
 
     def extract_active_merchant_data(response)

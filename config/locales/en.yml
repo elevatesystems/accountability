@@ -23,7 +23,22 @@ en:
       not_permitted: 'is not permitted'
     gateway:
       errors:
-        unknown_gateway_error: "An unknown gateway error has occurred"
+        incorrect_number: 'Card number does not comply with ISO/IEC 7812 numbering standard.'
+        invalid_number: 'Card number was invalid.'
+        invalid_expiry_date: 'Expiry date does not match correct formatting.'
+        invalid_cvc: 'Security codes does not match correct format (3-4 digits).'
+        expired_card: 'Card number is expired.'
+        incorrect_cvc: 'Security code was incorrect.'
+        incorrect_zip: 'Zip code is not in correct format.'
+        incorrect_address: 'Billing address info was incorrect.'
+        incorrect_pin: 'Card PIN is incorrect.'
+        card_declined: 'Card was declined.'
+        processing_error: 'Processor error.'
+        call_issuer: 'Transaction requires voice authentication, call issuer.'
+        pickup_card: 'Issuer requests that you pickup the card from merchant.'
+        test_mode_live_card: 'Card was declined. Request was in test mode, but used a non test card.'
+        unsupported_feature: 'Transaction failed due to gateway or merchant.'
+        config_error: 'An unknown gateway error has occurred.'
   helpers:
     label:
       billing_configuration:
