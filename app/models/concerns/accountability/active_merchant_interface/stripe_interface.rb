@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # TODO: Implement #unstore_active_merchant_data
 
 module Accountability
@@ -22,6 +24,7 @@ module Accountability
       response = gateway.purchase(amount_in_cents, card_id)
 
       return true if response.success?
+
       Rails.logger.warn 'Warning: charge has failed!'
 
       handle_response_error(response)
@@ -65,6 +68,7 @@ module Accountability
 
       response = gateway.verify(authorization, verification_params)
       return if response.success?
+
       Rails.logger.warn 'Warning: validate_chargeable has failed!'
 
       handle_response_error(response)
@@ -87,6 +91,7 @@ module Accountability
     def add_customer_info(customer_id, gateway = initialize_payment_gateway)
       response = gateway.update_customer(customer_id, customer_params)
       return if response.success?
+
       Rails.logger.warn %(Warning: add_customer_info has failed!; customer_id: #{customer_id}).squish
 
       handle_response_error(response)
@@ -95,6 +100,7 @@ module Accountability
     def add_card_info(customer_id, card_id, gateway = initialize_payment_gateway)
       response = gateway.update(customer_id, card_id, card_params)
       return if response.success?
+
       Rails.logger.warn %(Warning: add_card_info has failed!; card_id: #{card_id};
         customer_id: #{customer_id}).squish
 
