@@ -22,8 +22,9 @@ module Accountability
       response = gateway.purchase(amount_in_cents, card_id)
 
       return true if response.success?
+      Rails.logger.warn 'Warning: charge has failed!'
 
-      translate_and_append_error_code(response.error_code)
+      handle_response_error(response)
       false
     end
 
@@ -31,8 +32,9 @@ module Accountability
       response = store_card_in_gateway
 
       unless response.success?
+        Rails.logger.warn 'Warning: store_active_merchant_data has failed!'
 
-        translate_and_append_error_code(response.error_code)
+        handle_response_error(response)
         return
       end
 
@@ -45,8 +47,10 @@ module Accountability
     private
 
     # Translates error codes from stripe into our I18n localizations and push them into stripe_api_errors.
-    def translate_and_append_error_code(error_code)
-      translated_error_code = I18n.t("accountability.gateway.errors.#{error_code}", default: 'accountability.gateway.errors.config_error')
+    def handle_response_error(response)
+      Rails.logger.debug %(Warning: A failure in #{self.class}: #{id} has occurred; Gateway response: #{response.inspect}).squish
+
+      translated_error_code = I18n.t("accountability.gateway.errors.#{response.error_code}", default: 'accountability.gateway.errors.config_error')
       stripe_api_errors.append(translated_error_code)
     end
 
@@ -61,8 +65,9 @@ module Accountability
 
       response = gateway.verify(authorization, verification_params)
       return if response.success?
+      Rails.logger.warn 'Warning: validate_chargeable has failed!'
 
-      translate_and_append_error_code(response.error_code)
+      handle_response_error(response)
     end
 
     def extract_active_merchant_data(response)
@@ -81,18 +86,19 @@ module Accountability
 
     def add_customer_info(customer_id, gateway = initialize_payment_gateway)
       response = gateway.update_customer(customer_id, customer_params)
-      return unless response.error_code
+      return if response.success?
+      Rails.logger.warn %(Warning: add_customer_info has failed!; customer_id: #{customer_id}).squish
 
-      Rails.logger.warn %(Warning: add_customer_info failed for #{self.class}: #{id}; card_id: #{card_id};
-        customer_id: #{customer_id}; Stripe Error: #{add_customer_info_response.error_code}).squish
+      handle_response_error(response)
     end
 
     def add_card_info(customer_id, card_id, gateway = initialize_payment_gateway)
       response = gateway.update(customer_id, card_id, card_params)
-      return unless response.error_code
+      return if response.success?
+      Rails.logger.warn %(Warning: add_card_info has failed!; card_id: #{card_id};
+        customer_id: #{customer_id}).squish
 
-      Rails.logger.warn %(Warning: add_card_info failed for #{self.class}: #{id}; card_id: #{card_id};
-        customer_id: #{customer_id}; Stripe Error: #{add_customer_info_response.error_code}).squish
+      handle_response_error(response)
     end
 
     def save_customer_info_to_stripe(gateway = initialize_payment_gateway)
