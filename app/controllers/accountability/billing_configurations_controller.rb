@@ -7,6 +7,8 @@ module Accountability
 
     def new; end
 
+    # TODO: Ensure values are not being casted before they reach validations.
+    # Specifically, it seems Zip when not a number ends up being casted to 0 and passes validation.
     def create
       bc_params = billing_configuration_params
       @billing_configuration = @account.build_billing_configuration_with_active_merchant_data(bc_params,
